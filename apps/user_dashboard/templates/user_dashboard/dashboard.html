@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{%if admin%}Admin{%else%}User{%endif%} Dashboard</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse">
+                <a class="navbar-brand" href="#">Test App</a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'show' id=id %}">Profile</a></li>
+                </ul>
+                <ul class="navbar-nav navbar-right">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log off</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h2>{%if admin%}Manage{%else%}All{%endif%} Users</h2>
+        {% if admin %}
+            <a href="{% url 'new' %}" class="btn btn-secondary">Add new</a>
+        {% endif %}
+        <!-- <div class="row content-justify-center"> -->
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>email</th>
+                        <th>created_at</th>
+                        <th>user_level</th>
+                        {% if admin %}
+                            <th>actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                        <tr>
+                            <td>{{u.id}}</td>
+                            <td><a href="{% url 'show' id=u.id %}">{{u.first_name}} {{u.last_name}}</a></td>
+                            <td>{{u.email}}</td>
+                            <td>{{u.created_at}}</td>
+                            <td>{% if u.user_level == 9 %}admin{% elif u.user_level == 1 %}normal{% endif %}</td>
+                            {% if admin %}
+                                <td><a href="{% url 'edit_user' id=u.id %}">edit</a> <a href="#" data-toggle="modal" data-target="#deleteModal{{u.id}}">remove</a></td>
+                                <div class="modal fade" id="deleteModal{{u.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete this user ({{u.first_name}} {{u.last_name}}) and all content associated with them?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <a href="{% url 'remove' id=u.id %}" class="btn btn-primary">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <!-- </div> -->
+        {% if admin %}
+        {% endif %}
+    </body>
+</html>

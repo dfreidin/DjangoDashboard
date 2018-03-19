@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Signin Page</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse">
+                <a class="navbar-brand" href="#">Test App</a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index'}">Home</a></li>
+                </ul>
+                <ul class="navbar-nav navbar-right">
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'signin' %}">Sign in</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h2>Signin</h2>
+        {% for m in messages %}
+            <p>{{m}}</p>
+        {% endfor %}
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Sign In">
+        </form>
+        <p><a href="{% url 'register' %}">Don't have an account? Register</a></p>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Home Page</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+    </head>
+    <body>
+        <nav class="navbar navbar-ligt bg-dark">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Test App</a>
+                </div>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="active"><a href="{% url 'index'}">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'signin' %}">Sign in</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="hero-unit bg-light">
+            <h2>Welcome to the Test</h2>
+            <h3>We're going to build a cool application using a MVC framework! This application was build with the Village88 folks!</h3>
+            <a class="btn btn-primary" href="{% url 'signin' %}">Start</a>
+        </div>
+    </body>
+</html>

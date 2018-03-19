@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Edit {% if admin %}User{% else %}Profile{% endif %}</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="collapse navbar-collapse">
+                <a class="navbar-brand" href="#">Test App</a>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" {% if admin %}href="{% url 'show' id=id %}"{% else %}href="{% url 'show' id=user.id %}"{% endif %}>Profile</a></li>
+                </ul>
+                <ul class="navbar-nav navbar-right">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log off</a></li>
+                </ul>
+            </div>
+        </nav>
+        <h2>Edit {% if admin %}user #{{user.id}}{% else %}Profile{% endif %}</h2>
+        <div class="row">
+            <div class="col-1"></div>
+            <form class="col" {% if admin %}action="{% url 'admin_update_info' id=user.id %}"{% else %}action="{% url 'update_info' id=user.id %}"{% endif %} method="POST">
+                <h4>Edit Information</h4>
+                {% csrf_token %}
+                {{eform.as_p}}
+                <input type="submit" value="Save">
+            </form>
+            <form class="col" action="{% url 'update_password' id=user.id %}" method="POST">
+                <h4>Change Password</h4>
+                {% csrf_token %}
+                {{pform.as_p}}
+                <input type="submit" value="Update Password">
+            </form>
+        </div>
+        {% if not admin %}
+            <div class="row">
+                <div class="col-1"></div>
+                <form class="col" action="{% url 'update_description' id=user.id %}" method="POST">
+                    <h4>Edit Description</h4>
+                    {% csrf_token %}
+                    {{dform.as_p}}
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        {% endif %}
+    </body>
+</html>
